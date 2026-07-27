@@ -1,0 +1,21 @@
+{
+  "board": {
+    "id": "demo-source",
+    "name": "Demo Library",
+    "url": "https://example.com/demo"
+  },
+  "schedule": {
+    "mode": "manual",
+    "timezone": "Asia/Shanghai"
+  },
+  "processing": {
+    "saveOriginalImages": false,
+    "keepRawVideo": false,
+    "transcribeVideo": false,
+    "ocrImages": false,
+    "ocrVideoFrames": false,
+    "videoFrameIntervalSeconds": 3,
+    "maxVideoFrames": 12,
+    "whisperModel": ""
+  }
+}

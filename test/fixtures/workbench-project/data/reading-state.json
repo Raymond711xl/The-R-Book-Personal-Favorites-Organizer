@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "items": {
+    "demoalpha": {
+      "readStatus": "unread",
+      "actionStatus": "none",
+      "pinned": true,
+      "stars": 2,
+      "firstSeenAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": null
+    },
+    "demobeta": {
+      "readStatus": "unread",
+      "actionStatus": "none",
+      "pinned": false,
+      "stars": 0,
+      "firstSeenAt": "2026-01-02T00:00:00.000Z",
+      "updatedAt": null
+    },
+    "demogamma": {
+      "readStatus": "skipped",
+      "actionStatus": "none",
+      "pinned": false,
+      "stars": 0,
+      "firstSeenAt": "2026-01-03T00:00:00.000Z",
+      "updatedAt": "2026-01-04T00:00:00.000Z"
+    }
+  }
+}

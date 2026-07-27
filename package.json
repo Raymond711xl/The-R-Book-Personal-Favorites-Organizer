@@ -1,0 +1,32 @@
+{
+  "name": "the-r-book-personal-favorites-organizer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first, Agent-assisted personal reading organizer with portable Markdown and a local workbench.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raymond711xl/The-R-Book-Personal-Favorites-Organizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Raymond711xl/The-R-Book-Personal-Favorites-Organizer/issues"
+  },
+  "homepage": "https://github.com/Raymond711xl/The-R-Book-Personal-Favorites-Organizer#readme",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check:release": "node scripts/check-release.mjs",
+    "validate": "node scripts/validate-content.mjs",
+    "build:enrichment-input": "node scripts/build-enrichment-input.mjs",
+    "build:favorites-snapshot": "node scripts/build-favorites-snapshot.mjs",
+    "build:import-report": "node scripts/build-import-report.mjs",
+    "build:preview-index": "node scripts/build-preview-index.mjs",
+    "build:workbench": "node scripts/build-workbench-data.mjs",
+    "refresh:source": "node scripts/refresh-source-metadata.mjs",
+    "collect": "node src/collect.mjs",
+    "workbench": "node scripts/serve-workbench.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

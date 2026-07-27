@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="小某书个人收藏整理器 / The R Book Personal Favorites Organizer"
+    />
+    <title>小某书个人收藏整理器 · The R Book Personal Favorites Organizer</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#list" aria-label="回到全局列表">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>
+            <strong>小某书个人收藏整理器</strong>
+          </span>
+        </a>
+
+        <nav class="view-tabs" aria-label="工作台视图">
+          <button class="view-tab is-active" data-view-target="list" type="button">
+            全局列表
+          </button>
+          <button class="view-tab" data-view-target="weekly" type="button">
+            周读清单
+            <span class="tab-count" id="weeklyTabCount">5</span>
+          </button>
+          <button class="view-tab" data-view-target="map" type="button">
+            知识地图
+            <span class="new-tab-count" id="mapTabNew" hidden>NEW 0</span>
+          </button>
+        </nav>
+
+        <div class="local-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>
+            <strong>仅保存在本机</strong>
+            <small id="lastGenerated">正在载入…</small>
+          </span>
+        </div>
+      </header>
+
+      <main>
+        <section class="view-panel is-active" data-view="list">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">LIBRARY</p>
+              <h2>全局列表</h2>
+              <p>按阅读状态、阅读价值和知识类型找到下一条值得看的内容。</p>
+            </div>
+            <div class="heading-actions">
+              <label class="search-field">
+                <span aria-hidden="true">⌕</span>
+                <input
+                  id="listSearch"
+                  type="search"
+                  placeholder="搜索标题、摘要、标签或专有名词"
+                  autocomplete="off"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div class="library-layout">
+            <aside class="filter-rail" aria-label="列表筛选">
+              <div class="filter-block">
+                <div class="filter-title">
+                  <span>阅读状态</span>
+                  <button id="clearFilters" class="text-button" type="button">
+                    清除
+                  </button>
+                </div>
+                <div class="rail-reading-progress" aria-label="阅读进度">
+                  <div class="rail-progress-head">
+                    <span>阅读进度</span>
+                    <strong id="readProgressNumber">0%</strong>
+                    <small id="readProgressMeta">0 / 0 已读</small>
+                  </div>
+                  <div class="progress-track" aria-hidden="true">
+                    <span id="readProgressBar"></span>
+                  </div>
+                </div>
+                <div class="segmented-list" id="readStatusFilters">
+                  <button class="filter-chip is-active" data-filter-status="all" type="button">
+                    <span>全部</span><strong id="filterCountAll">0</strong>
+                  </button>
+                  <button class="filter-chip" data-filter-status="unread" type="button">
+                    <span>未读</span><strong id="filterCountUnread">0</strong>
+                  </button>
+                  <button class="filter-chip" data-filter-status="read" type="button">
+                    <span>已读</span><strong id="filterCountRead">0</strong>
+                  </button>
+                  <button class="filter-chip" data-filter-status="skipped" type="button">
+                    <span>已忽略</span><strong id="filterCountSkipped">0</strong>
+                  </button>
+                </div>
+              </div>
+
+              <div class="filter-block">
+                <label class="field-label" for="valueFilter">阅读价值</label>
+                <select id="valueFilter">
+                  <option value="all">全部价值</option>
+                  <option value="priority">优先读</option>
+                  <option value="standard">值得读</option>
+                  <option value="archive">可归档</option>
+                </select>
+              </div>
+
+              <div class="filter-block">
+                <label class="field-label" for="knowledgeTypeFilter">知识类型</label>
+                <select id="knowledgeTypeFilter">
+                  <option value="all">全部类型</option>
+                  <option value="tool">工具 / 资源</option>
+                  <option value="opinion">观点 / 洞察</option>
+                  <option value="method">方法 / 教程</option>
+                  <option value="case">案例 / 参考</option>
+                  <option value="inspiration">灵感 / 素材</option>
+                </select>
+              </div>
+
+              <div class="filter-block">
+                <label class="field-label" for="topicFilter">全局主题</label>
+                <select id="topicFilter">
+                  <option value="all">全部主题</option>
+                </select>
+              </div>
+
+              <div class="filter-block">
+                <label class="field-label" for="starsFilter">我的星级</label>
+                <select id="starsFilter">
+                  <option value="all">全部星级</option>
+                  <option value="1">一星及以上</option>
+                  <option value="2">仅两星</option>
+                  <option value="0">未标星</option>
+                </select>
+              </div>
+
+              <div class="rail-note">
+                <span class="rail-note-mark" aria-hidden="true">MD</span>
+                <p>
+                  阅读状态与星级保存在
+                  <code>data/reading-state.json</code>，不会改动任何 Markdown。
+                </p>
+              </div>
+            </aside>
+
+            <div class="library-content">
+              <div class="list-toolbar">
+                <p><strong id="listResultCount">0</strong> 条结果</p>
+                <label class="sort-control">
+                  <span>排序</span>
+                  <select id="sortSelect">
+                    <option value="stars">星级</option>
+                    <option value="latest">最近收藏（新）</option>
+                    <option value="saves">收藏数</option>
+                    <option value="likes">点赞数</option>
+                  </select>
+                </label>
+              </div>
+              <div class="content-list" id="contentList" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view-panel" data-view="weekly" hidden>
+          <div class="weekly-heading">
+            <div>
+              <h2>本周只读 5 条</h2>
+            </div>
+            <div class="weekly-actions">
+              <div class="weekly-score">
+                <span id="weeklyProgressLabel">0 / 5</span>
+                <small>完整读完</small>
+              </div>
+              <button class="secondary-button" id="refreshWeekly" type="button">
+                重新生成本周清单
+              </button>
+            </div>
+          </div>
+          <div class="weekly-grid" id="weeklyGrid"></div>
+        </section>
+
+        <section class="view-panel map-view" data-view="map" hidden>
+          <div class="section-heading map-heading">
+            <div>
+              <h2>知识地图</h2>
+            </div>
+            <div class="map-heading-actions">
+              <button class="secondary-button" id="collapseMap" type="button">
+                收起
+              </button>
+              <button class="secondary-button" id="expandMap" type="button">
+                展开
+              </button>
+              <button class="primary-button refresh-library-button" id="refreshLibrary" type="button">
+                刷新知识库
+              </button>
+            </div>
+          </div>
+
+          <div class="knowledge-map-shell" id="knowledgeMapShell">
+            <div class="map-shell-toolbar">
+              <div class="map-legend" id="mapLegend"></div>
+              <button
+                class="map-fullscreen-button"
+                id="toggleMapFullscreen"
+                type="button"
+                aria-pressed="false"
+              >
+                全屏模式
+              </button>
+            </div>
+            <div class="map-root-column">
+              <button class="map-root-node" id="mapRootNode" data-map-node-id="root" type="button">
+                <span>知识库</span>
+                <strong>全部知识</strong>
+                <em class="new-indicator" id="mapRootNew" hidden>NEW 0</em>
+              </button>
+              <div>
+                <span class="map-root-note">点击带 NEW 的层级，即视为看过该层级的新内容提示。</span>
+              </div>
+            </div>
+            <div class="map-tree-scroll">
+              <div class="knowledge-tree" id="knowledgeMapTree" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+        <div class="drawer-backdrop" data-close-detail></div>
+        <article class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+          <button
+            class="drawer-close"
+            data-close-detail
+            type="button"
+            aria-label="关闭详情"
+          >
+            ×
+          </button>
+          <div id="detailContent"></div>
+        </article>
+      </aside>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="loading-screen" id="loadingScreen">
+        <div class="loading-mark">收</div>
+        <p>正在整理你的收藏…</p>
+      </div>
+    </div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

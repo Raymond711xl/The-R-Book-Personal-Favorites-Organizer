@@ -1,0 +1,21 @@
+{
+  "board": {
+    "id": "replace-with-your-source-id",
+    "name": "My Favorites",
+    "url": "https://www.xiaohongshu.com/"
+  },
+  "schedule": {
+    "mode": "manual",
+    "timezone": "Asia/Shanghai"
+  },
+  "processing": {
+    "saveOriginalImages": true,
+    "keepRawVideo": false,
+    "transcribeVideo": false,
+    "ocrImages": false,
+    "ocrVideoFrames": false,
+    "videoFrameIntervalSeconds": 3,
+    "maxVideoFrames": 12,
+    "whisperModel": "/absolute/path/to/whisper-model.bin"
+  }
+}

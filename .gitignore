@@ -1,0 +1,41 @@
+# Operating system and editors
+.DS_Store
+.idea/
+.vscode/
+
+# Local tools and credentials
+.agents/
+.codex/
+.env
+.env.*
+.firecrawl/
+
+# Personal configuration
+/config.json
+/workbench.config.json
+
+# Local content, state, generated reports, and binaries
+/archive/
+/bin/
+/data/
+/reports/
+/review/
+/work/
+
+# The currently deployed site is a separate private workspace. It contains
+# personal content and its own Git history, so it is intentionally excluded
+# from the first public source release.
+/site/
+
+# Deferred provider-specific knowledge-base integration
+/src/sync-ima.mjs
+/scripts/configure_ima.sh
+
+# Dependencies, build output, and logs
+node_modules/
+coverage/
+dist/
+*.log
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

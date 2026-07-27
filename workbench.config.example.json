@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "weeklySize": 5,
+  "interests": [],
+  "scoring": {
+    "engagement": 0.35,
+    "actionability": 0.25,
+    "relevance": 0.2,
+    "informationDensity": 0.15,
+    "novelty": 0.05
+  },
+  "profiles": {}
+}

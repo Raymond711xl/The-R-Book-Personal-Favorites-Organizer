@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "board": {
+    "id": "demo-pool",
+    "name": "Demo Library",
+    "discoveredCount": 3
+  },
+  "sources": [
+    {
+      "id": "demo-source",
+      "name": "Demo source",
+      "kind": "favorite",
+      "url": "https://example.com/demo",
+      "discoveredCount": 3
+    }
+  ],
+  "entries": [
+    {
+      "noteId": "demoalpha",
+      "title": "Demo Alpha",
+      "type": "normal",
+      "markdownPath": "archive/Demo Library/demoalpha/Demo Alpha.md",
+      "metadataPath": "archive/Demo Library/demoalpha/metadata.json",
+      "imagePaths": [],
+      "status": "preview"
+    },
+    {
+      "noteId": "demobeta",
+      "title": "Demo Beta",
+      "type": "video",
+      "markdownPath": "archive/Demo Library/demobeta/Demo Beta.md",
+      "metadataPath": "archive/Demo Library/demobeta/metadata.json",
+      "imagePaths": [],
+      "status": "preview"
+    },
+    {
+      "noteId": "demogamma",
+      "title": "Demo Gamma",
+      "type": "normal",
+      "markdownPath": "archive/Demo Library/demogamma/Demo Gamma.md",
+      "metadataPath": "archive/Demo Library/demogamma/metadata.json",
+      "imagePaths": [],
+      "status": "preview"
+    }
+  ]
+}

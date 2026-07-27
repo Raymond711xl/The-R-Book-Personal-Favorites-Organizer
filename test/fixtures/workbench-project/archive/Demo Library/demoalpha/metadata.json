@@ -1,0 +1,47 @@
+{
+  "contentSchemaVersion": 2,
+  "noteId": "demoalpha",
+  "boardName": "Demo Library",
+  "sourceTitle": "Demo Alpha",
+  "displayTitle": "Demo Alpha",
+  "title": "Demo Alpha",
+  "type": "normal",
+  "author": "Fixture Author",
+  "description": "Synthetic fixture content.",
+  "collectedAt": "2026-01-01T00:00:00.000Z",
+  "canonicalUrl": "https://example.com/demo-alpha",
+  "contentSummary": "A synthetic tool example used only by automated tests.",
+  "keyPoints": [
+    "Uses no real user content",
+    "Keeps tests independent from the local archive"
+  ],
+  "searchTags": [
+    "demo",
+    "knowledge-management"
+  ],
+  "category": "知识管理 / 工具",
+  "references": [
+    {
+      "name": "Fixture App",
+      "type": "tool",
+      "url": "https://example.com/app",
+      "description": "Synthetic shared reference"
+    }
+  ],
+  "images": [],
+  "markdownPath": "archive/Demo Library/demoalpha/Demo Alpha.md",
+  "htmlPath": "archive/Demo Library/demoalpha/Demo Alpha.html",
+  "sourceMetadata": {
+    "author": {
+      "nickname": "Fixture Author",
+      "profileUrl": "https://example.com/author"
+    },
+    "publishedAt": "2026-01-01T00:00:00.000Z",
+    "engagementAtCollection": {
+      "likedCount": "120",
+      "collectedCount": "80",
+      "commentCount": "10",
+      "shareCount": "5"
+    }
+  }
+}

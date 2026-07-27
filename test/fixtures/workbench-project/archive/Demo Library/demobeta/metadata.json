@@ -1,0 +1,48 @@
+{
+  "contentSchemaVersion": 2,
+  "noteId": "demobeta",
+  "boardName": "Demo Library",
+  "sourceTitle": "Demo Beta",
+  "displayTitle": "Demo Beta",
+  "title": "Demo Beta",
+  "type": "video",
+  "author": "Fixture Author",
+  "description": "Synthetic fixture content.",
+  "collectedAt": "2026-01-02T00:00:00.000Z",
+  "canonicalUrl": "https://example.com/demo-beta",
+  "contentSummary": "A synthetic method example used only by automated tests.",
+  "keyPoints": [
+    "Demonstrates a video-shaped record",
+    "Contains no downloaded media"
+  ],
+  "searchTags": [
+    "demo",
+    "knowledge-management"
+  ],
+  "category": "知识管理 / 方法",
+  "transcriptEdited": "This is a synthetic transcript.",
+  "references": [
+    {
+      "name": "Fixture App",
+      "type": "tool",
+      "url": "https://example.com/app",
+      "description": "Synthetic shared reference"
+    }
+  ],
+  "images": [],
+  "markdownPath": "archive/Demo Library/demobeta/Demo Beta.md",
+  "htmlPath": "archive/Demo Library/demobeta/Demo Beta.html",
+  "sourceMetadata": {
+    "author": {
+      "nickname": "Fixture Author",
+      "profileUrl": "https://example.com/author"
+    },
+    "publishedAt": "2026-01-02T00:00:00.000Z",
+    "engagementAtCollection": {
+      "likedCount": "90",
+      "collectedCount": "60",
+      "commentCount": "8",
+      "shareCount": "4"
+    }
+  }
+}

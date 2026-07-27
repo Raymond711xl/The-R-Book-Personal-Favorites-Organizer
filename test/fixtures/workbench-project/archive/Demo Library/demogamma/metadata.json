@@ -1,0 +1,47 @@
+{
+  "contentSchemaVersion": 2,
+  "noteId": "demogamma",
+  "boardName": "Demo Library",
+  "sourceTitle": "Demo Gamma",
+  "displayTitle": "Demo Gamma",
+  "title": "Demo Gamma",
+  "type": "normal",
+  "author": "Fixture Author",
+  "description": "Synthetic fixture content.",
+  "collectedAt": "2026-01-03T00:00:00.000Z",
+  "canonicalUrl": "https://example.com/demo-gamma",
+  "contentSummary": "A synthetic case example marked as skipped in test state.",
+  "keyPoints": [
+    "Exercises skipped-item map behavior",
+    "Remains connected in the relation graph"
+  ],
+  "searchTags": [
+    "demo",
+    "knowledge-management"
+  ],
+  "category": "知识管理 / 案例",
+  "references": [
+    {
+      "name": "Fixture App",
+      "type": "tool",
+      "url": "https://example.com/app",
+      "description": "Synthetic shared reference"
+    }
+  ],
+  "images": [],
+  "markdownPath": "archive/Demo Library/demogamma/Demo Gamma.md",
+  "htmlPath": "archive/Demo Library/demogamma/Demo Gamma.html",
+  "sourceMetadata": {
+    "author": {
+      "nickname": "Fixture Author",
+      "profileUrl": "https://example.com/author"
+    },
+    "publishedAt": "2026-01-03T00:00:00.000Z",
+    "engagementAtCollection": {
+      "likedCount": "70",
+      "collectedCount": "40",
+      "commentCount": "6",
+      "shareCount": "3"
+    }
+  }
+}

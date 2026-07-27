@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "weeklySize": 2,
+  "interests": [
+    "知识管理"
+  ],
+  "scoring": {
+    "engagement": 0.35,
+    "actionability": 0.25,
+    "relevance": 0.2,
+    "informationDensity": 0.15,
+    "novelty": 0.05
+  },
+  "profiles": {
+    "demoalpha": {
+      "knowledgeType": "tool",
+      "topic": "知识管理"
+    },
+    "demobeta": {
+      "knowledgeType": "method",
+      "topic": "知识管理"
+    },
+    "demogamma": {
+      "knowledgeType": "case",
+      "topic": "知识管理"
+    }
+  }
+}

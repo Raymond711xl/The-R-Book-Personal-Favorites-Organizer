@@ -1,0 +1,16 @@
+{
+  "0123456789abcdef01234567": {
+    "displayTitle": "A clear and searchable example title",
+    "contentSummary": "A one-sentence summary generated only from supplied evidence.",
+    "keyPoints": [
+      "The first evidence-backed point",
+      "The second evidence-backed point"
+    ],
+    "tags": [
+      "example",
+      "knowledge-management"
+    ],
+    "category": "Examples / Knowledge management",
+    "references": []
+  }
+}

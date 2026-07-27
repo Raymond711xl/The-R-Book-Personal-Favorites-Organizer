@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "capturedAt": "2026-01-01T00:00:00.000Z",
+  "source": {
+    "id": "my-favorites",
+    "name": "My Favorites",
+    "kind": "favorite",
+    "url": "https://www.xiaohongshu.com/"
+  },
+  "items": [
+    {
+      "noteId": "0123456789abcdef01234567",
+      "displayTitle": "Example saved item",
+      "type": "normal",
+      "author": "Example author",
+      "xsecToken": "replace-with-temporary-xsec-token"
+    }
+  ]
+}

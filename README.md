@@ -12,6 +12,33 @@ A local-first, Agent-assisted personal reading organizer that turns “read late
 > [!IMPORTANT]
 > The first public release of The R Book Personal Favorites Organizer contains reusable source code, example configuration, and synthetic test data only. Account sessions, saved content, media, reading history, real configuration, and the existing private site stay local and must not be uploaded to GitHub.
 
+## 界面预览 / Interface Preview
+
+<table>
+  <tr>
+    <td width="33.33%" align="center">
+      <a href="docs/images/library-overview.png">
+        <img src="docs/images/library-overview.png" alt="全局列表 / Library overview" width="100%">
+      </a>
+    </td>
+    <td width="33.33%" align="center">
+      <a href="docs/images/weekly-reading.png">
+        <img src="docs/images/weekly-reading.png" alt="周阅读与内容详情 / Weekly reading and item detail" width="100%">
+      </a>
+    </td>
+    <td width="33.33%" align="center">
+      <a href="docs/images/knowledge-map.png">
+        <img src="docs/images/knowledge-map.png" alt="知识地图 / Knowledge map" width="100%">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><sub>全局列表 / Library overview</sub></td>
+    <td align="center"><sub>周阅读与内容详情 / Weekly reading and item detail</sub></td>
+    <td align="center"><sub>知识地图 / Knowledge map</sub></td>
+  </tr>
+</table>
+
 ---
 
 <a id="中文"></a>

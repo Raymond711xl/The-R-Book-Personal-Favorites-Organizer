@@ -36,22 +36,41 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function isDeepCleaned(metadata) {
+  return (
+    String(metadata.contentSummary || "").trim().length > 0 &&
+    Array.isArray(metadata.keyPoints) &&
+    metadata.keyPoints.filter(Boolean).length > 0 &&
+    Array.isArray(metadata.searchTags) &&
+    metadata.searchTags.filter(Boolean).length >= 5 &&
+    String(metadata.category || "").trim().length > 0 &&
+    metadata.category !== "待分类"
+  );
+}
+
 async function main() {
   const config = await loadJson(path.join(projectRoot, "config.json"));
   const manifest = await loadJson(
     path.join(projectRoot, "data", "latest-manifest.json"),
   );
   let validated = 0;
+  let pending = 0;
 
   for (const entry of manifest.entries.filter((item) => item.markdownPath)) {
-    const metadataPath = path.join(
-      projectRoot,
-      "archive",
-      config.board.name,
-      entry.noteId,
-      "metadata.json",
-    );
+    const metadataPath = entry.metadataPath
+      ? path.resolve(projectRoot, entry.metadataPath)
+      : path.join(
+          projectRoot,
+          "archive",
+          config.board.name,
+          entry.noteId,
+          "metadata.json",
+        );
     const metadata = await loadJson(metadataPath);
+    if (!isDeepCleaned(metadata)) {
+      pending += 1;
+      continue;
+    }
     const markdownPath = path.resolve(projectRoot, metadata.markdownPath);
     const htmlPath = path.resolve(projectRoot, metadata.htmlPath);
     const markdown = await fs.readFile(markdownPath, "utf8");
@@ -154,7 +173,9 @@ async function main() {
     validated += 1;
   }
 
-  console.log(`内容校验通过：${validated} 条。`);
+  console.log(
+    `内容校验通过：${validated} 条；另有 ${pending} 条仍在等待深度清洗。`,
+  );
 }
 
 main().catch((error) => {

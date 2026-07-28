@@ -1,8 +1,8 @@
 # 小某书个人收藏整理器 / The R Book Personal Favorites Organizer
 
-一个本地优先、由个人 Agent 协助，把“以后再看”变成真正可阅读、可整理内容的个人阅读整理器。
+一个本地优先、由个人 Agent 协助，把“以后再看”变成真正可阅读、可整理内容的个人阅读整理器。项目同时附带对话式收藏清洗 Skill，让盘点、计划与进度直接出现在 Agent 对话中。
 
-A local-first, Agent-assisted personal reading organizer that turns “read later” into material you can actually read and understand.
+A local-first, Agent-assisted personal reading organizer that turns “read later” into material you can actually read and understand. It includes a conversational collection-cleaning Skill that brings inventory, planning, and progress directly into the Agent chat.
 
 [中文](#中文) · [English](#english)
 
@@ -61,9 +61,10 @@ A local-first, Agent-assisted personal reading organizer that turns “read late
 flowchart LR
     A["用户自己登录的内容平台"] --> B["本地 HTML 或标准化来源 JSON"]
     B --> C["本地采集：正文与媒体证据"]
-    C --> D["用户自己的 Agent：摘要、要点、标签、分类"]
-    D --> E["可移植的 Markdown / HTML"]
-    E --> F["小某书个人收藏整理器本地工作台"]
+    C --> D["对话式清洗 Skill：盘点、计划、进度"]
+    D --> E["用户自己的 Agent：摘要、要点、标签、分类"]
+    E --> F["可移植的 Markdown / HTML"]
+    F --> G["可选的本地工作台"]
 ```
 
 `小某书个人收藏整理器 / The R Book Personal Favorites Organizer` 是这个项目的完整名称，数据约定则尽量保持通用。当前首个来源适配器仍然面向小红书个人收藏；未来可以继续增加其他内容来源，而不改变 Markdown 与 Agent 提炼流程。
@@ -76,6 +77,7 @@ flowchart LR
 - 在 macOS 上选择性使用 Apple Vision 做图片与视频画面 OCR；
 - 选择性使用 `ffmpeg` 与 `whisper-cli` 提取视频旁白；
 - 把本地证据整理成结构化 JSON，交给用户自己的 Agent 提炼；
+- 通过附带的对话式 Skill 展示收藏盘点、处理进度与分钟计划；
 - 生成可长期保存、搜索和迁移的 Markdown 与派生 HTML；
 - 提供本地列表、周读清单、阅读状态与知识地图；
 - 生成采集进度、失败记录和内容质量报告。
@@ -103,6 +105,7 @@ flowchart LR
 | 层 | 职责 | 主要位置 |
 | --- | --- | --- |
 | 来源与采集 | 解析 HTML 或来源 JSON，获取正文与媒体 | `src/inventory.mjs`, `src/source-snapshot.mjs`, `src/collect.mjs`, `src/xhs-state.mjs`, `src/media.mjs` |
+| 对话式清洗 | 在 Agent 对话中盘点、展示进度、生成计划并管理暂停/续跑 | `skills/xhs-collection-cleaner/` |
 | Agent 提炼 | 导出证据 JSON，校验并接收结构化结果 | `scripts/build-enrichment-input.mjs`, `src/enrich.mjs` |
 | 内容渲染 | 生成 Markdown 与派生 HTML | `src/render.mjs` |
 | 本地工作台 | 列表、筛选、周读、状态与知识地图 | `workbench/`, `src/workbench-data.mjs`, `scripts/serve-workbench.mjs` |
@@ -240,6 +243,103 @@ npm run collect -- \
 不要上传文件，不要修改 archive、data 或 config。
 ```
 
+### 对话式收藏清洗 Skill（v0.1.0）
+
+仓库内置 [`xhs-collection-cleaner`](skills/xhs-collection-cleaner/SKILL.md)。它把 Agent 对话变成收藏清洗控制台，不需要本地桥接程序、常驻服务或网页按钮。网页处理中心只是可选的数据镜像。
+
+#### 它能做什么
+
+| 能力 | 可以直接这样说 | v0.1.0 的行为 |
+| --- | --- | --- |
+| 能力菜单 | “这个 Skill 能做什么？” | 展示可用指令与当前快照 |
+| 快速盘点 | “盘点我的收藏” | 读取本地元数据，展示数量与数据边界 |
+| 查看进度 | “现在完成到哪里了？” | 展示发现、归档、清洗和阅读库进度 |
+| 分析结构 | “视频和图文各有多少？” | 展示类型、处理成本与估算可信度 |
+| 生成计划 | “生成一个 90 分钟计划” | 生成容量预览，等待用户确认 |
+| 执行计划 | “开始执行刚才的计划” | 先复述范围和停止条件，再调用项目脚本 |
+| 暂停任务 | “做完当前这一条后暂停” | 完成原子条目、保存断点、不开始下一条 |
+| 继续任务 | “继续上次任务” | 读取本地账本后续跑 |
+| 条件处理 | “今天只处理图片” | 只过滤本次计划，不改变全局范围 |
+
+#### 最终对话呈现
+
+以下使用的是示例数据，不包含任何个人收藏：
+
+```text
+┌──────────────────────────────────────────────┐
+│ XHS COLLECTION CLEANER · v0.1.0              │
+│ 小红书收藏 · 对话工作台                      │
+│ 数据时间 · 2026/07/28 15:00                  │
+└──────────────────────────────────────────────┘
+```
+
+**当前快照**：已知 1,200 条 · 待归档 1,050 条 · 覆盖 88.9%
+
+| 能力 | 你可以直接这样说 | 默认行为 |
+| --- | --- | --- |
+| 快速盘点 | “盘点我的收藏” | 只读元数据，不下载媒体 |
+| 查看进度 | “现在完成到哪里了？” | 读取本地状态账本 |
+| 生成计划 | “生成一个 90 分钟计划” | 只生成计划，等待确认 |
+| 暂停任务 | “做完当前这一条后暂停” | 保存断点后停止 |
+| 继续任务 | “继续上次任务” | 从最近断点续跑 |
+
+盘点结果继续使用 Markdown 表格和短进度条呈现：
+
+```text
+图文  █████████░░░░░░░░░░░  560  46.7%
+视频  ███████████░░░░░░░░░  640  53.3%
+```
+
+| 阶段 | 进度 | 比例 | 状态 |
+| --- | ---: | ---: | --- |
+| 已发现 | 1,200 / 1,350 | 88.9% | 边界不完整 |
+| 可处理 | 1,196 / 1,200 | 99.7% | 边界不完整 |
+| 已归档 | 150 / 1,196 | 12.5% | 进行中 |
+| 已深度清洗 | 80 / 150 | 53.3% | 进行中 |
+
+#### 如何使用
+
+在支持项目文件和终端操作的 Agent 中打开本仓库。若 Agent 支持项目内 Skill，直接调用：
+
+```text
+使用 $xhs-collection-cleaner 展示能力菜单。
+```
+
+如果 Agent 尚未安装该 Skill，让它直接读取仓库中的文件：
+
+```text
+请读取 skills/xhs-collection-cleaner/SKILL.md，
+按其中的流程盘点我的小红书收藏，并在对话中展示结果。
+```
+
+一套完整但不会擅自开工的对话是：
+
+```text
+你：盘点我的收藏。
+Agent：展示数据边界、内容结构与处理进度。
+
+你：生成一个 90 分钟计划，优先处理图片。
+Agent：展示容量计划，并标记“尚未执行”。
+
+你：开始执行刚才的计划，完成当前条目后可以暂停。
+Agent：复述范围和停止条件，得到确认后执行并保存断点。
+
+你：继续上次任务。
+Agent：读取最近断点，展示后再续跑。
+```
+
+也可以直接运行确定性渲染器检查输出：
+
+```bash
+npm run build:processing-dashboard
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view menu
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view inventory
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view status
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view plan --minutes 90
+```
+
+v0.1.0 已固定能力菜单、盘点、进度和分钟容量计划的显示协议。具体 `noteId` 任务清单的自动选取与持久化、后台定时执行、第三方知识库同步仍属于后续版本；当前版本不会把这些能力伪装成已经完成。
+
 ### 配置你自己的 Agent
 
 小某书个人收藏整理器不调用固定的模型 API。Agent 的任务是读取本地证据并生成结构化提炼结果。
@@ -375,6 +475,8 @@ The-R-Book-Personal-Favorites-Organizer/
 │   └── enrichment-output.example.json
 ├── src/
 ├── scripts/
+├── skills/
+│   └── xhs-collection-cleaner/
 ├── workbench/
 │   ├── index.html
 │   ├── app.js
@@ -452,9 +554,10 @@ The R Book Personal Favorites Organizer is a personal content pipeline built aro
 flowchart LR
     A["A content platform you sign in to yourself"] --> B["Local HTML or normalized source JSON"]
     B --> C["Local capture: text and media evidence"]
-    C --> D["Your own Agent: summaries, key points, tags, and categories"]
-    D --> E["Portable Markdown / HTML"]
-    E --> F["The R Book Personal Favorites Organizer workbench"]
+    C --> D["Conversational cleaning Skill: inventory, plans, progress"]
+    D --> E["Your own Agent: summaries, key points, tags, and categories"]
+    E --> F["Portable Markdown / HTML"]
+    F --> G["Optional local workbench"]
 ```
 
 `The R Book Personal Favorites Organizer` is the project's full English name, while its data contracts are designed to remain general. The first source adapter currently targets personal Xiaohongshu saves. Other sources can be added later without changing the Markdown or Agent-enrichment workflow.
@@ -467,6 +570,7 @@ The current version can:
 - optionally run image and video-frame OCR through Apple Vision on macOS;
 - optionally extract video speech with `ffmpeg` and `whisper-cli`;
 - prepare structured evidence JSON for the user's own Agent;
+- show collection inventory, processing progress, and time-boxed plans through the bundled conversational Skill;
 - produce durable, searchable Markdown and derived HTML;
 - provide a local library, weekly reading list, reading state, and knowledge map;
 - report capture progress, failures, and content-quality gaps.
@@ -494,6 +598,7 @@ The current version can:
 | Layer | Responsibility | Main location |
 | --- | --- | --- |
 | Source and capture | Parse HTML or source JSON and retrieve text and media | `src/inventory.mjs`, `src/source-snapshot.mjs`, `src/collect.mjs`, `src/xhs-state.mjs`, `src/media.mjs` |
+| Conversational cleaning | Inventory data, show progress, create plans, and manage pause/resume inside an Agent chat | `skills/xhs-collection-cleaner/` |
 | Agent enrichment | Export evidence JSON and validate structured result JSON | `scripts/build-enrichment-input.mjs`, `src/enrich.mjs` |
 | Rendering | Generate Markdown and derived HTML | `src/render.mjs` |
 | Local workbench | Library, filters, weekly list, state, and knowledge map | `workbench/`, `src/workbench-data.mjs`, `scripts/serve-workbench.mjs` |
@@ -632,6 +737,89 @@ work/imports/favorites.json. Do not upload files or modify archive, data, or
 config.
 ```
 
+### Conversational collection-cleaning Skill (v0.1.0)
+
+The repository includes [`xhs-collection-cleaner`](skills/xhs-collection-cleaner/SKILL.md). It turns the Agent chat into the cleaning control surface without requiring a local bridge, resident service, or web button. The web processing center remains an optional data mirror.
+
+#### Capabilities
+
+| Capability | Example request | v0.1.0 behavior |
+| --- | --- | --- |
+| Capability menu | “What can this Skill do?” | Show available requests and the current snapshot |
+| Quick inventory | “Inventory my favorites.” | Read local metadata and show counts and boundaries |
+| Progress | “How far have we got?” | Show discovered, archived, cleaned, and published counts |
+| Structure | “How many images and videos?” | Show content types, processing cost, and confidence |
+| Time-boxed plan | “Create a 90-minute plan.” | Preview capacity and wait for confirmation |
+| Execute | “Start the previous plan.” | Restate scope and stop conditions before running project scripts |
+| Pause | “Pause after the current item.” | Finish the atomic item, checkpoint, and stop |
+| Resume | “Resume the previous task.” | Read the local ledger before continuing |
+| Filter | “Process images only today.” | Filter only the current plan |
+
+#### Chat presentation
+
+This example uses synthetic numbers and contains no personal collection data:
+
+```text
+┌──────────────────────────────────────────────┐
+│ XHS COLLECTION CLEANER · v0.1.0              │
+│ Favorites · conversational workspace         │
+│ Data time · 2026/07/28 15:00                 │
+└──────────────────────────────────────────────┘
+```
+
+**Current snapshot**: 1,200 known · 1,050 awaiting archive · 88.9% coverage
+
+| Capability | Example request | Default behavior |
+| --- | --- | --- |
+| Quick inventory | “Inventory my favorites.” | Read metadata only |
+| Progress | “How far have we got?” | Read the local state ledger |
+| Plan | “Create a 90-minute plan.” | Preview only; wait for confirmation |
+| Pause | “Pause after this item.” | Save a checkpoint, then stop |
+| Resume | “Resume the previous task.” | Continue from the latest checkpoint |
+
+#### Usage
+
+Open this repository in an Agent that can read project files and run terminal commands. If it supports project Skills, invoke:
+
+```text
+Use $xhs-collection-cleaner to show its capability menu.
+```
+
+If the Skill is not installed, ask the Agent to read it directly:
+
+```text
+Read skills/xhs-collection-cleaner/SKILL.md, inventory my Xiaohongshu
+favorites according to its workflow, and show the result in this chat.
+```
+
+Typical conversation:
+
+```text
+You: Inventory my favorites.
+Agent: Shows data boundaries, content structure, and processing progress.
+
+You: Create a 90-minute plan and prioritize image posts.
+Agent: Shows a capacity plan marked "not started."
+
+You: Start the previous plan and pause after the current atomic item.
+Agent: Restates scope and stop conditions, then runs after confirmation.
+
+You: Resume the previous task.
+Agent: Reads and displays the latest checkpoint before continuing.
+```
+
+The deterministic renderer can also be run directly:
+
+```bash
+npm run build:processing-dashboard
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view menu
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view inventory
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view status
+node skills/xhs-collection-cleaner/scripts/render-chat.mjs --root . --view plan --minutes 90
+```
+
+v0.1.0 freezes the presentation contract for capability menus, inventory, progress, and time-boxed capacity plans. Automatic selection and persistence of concrete `noteId` task lists, background schedules, and third-party knowledge-base sync remain future work; this release does not pretend those capabilities are already implemented.
+
 ### Configure your own Agent
 
 The R Book Personal Favorites Organizer does not call a fixed model API. The Agent reads local evidence and produces a structured enrichment result.
@@ -769,6 +957,8 @@ The-R-Book-Personal-Favorites-Organizer/
 │   └── enrichment-output.example.json
 ├── src/
 ├── scripts/
+├── skills/
+│   └── xhs-collection-cleaner/
 ├── workbench/
 │   ├── index.html
 │   ├── app.js

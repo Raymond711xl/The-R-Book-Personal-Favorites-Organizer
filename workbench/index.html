@@ -32,6 +32,10 @@
             知识地图
             <span class="new-tab-count" id="mapTabNew" hidden>NEW 0</span>
           </button>
+          <button class="view-tab" data-view-target="processing" type="button">
+            处理中心
+            <span class="processing-tab-badge">BETA</span>
+          </button>
         </nav>
 
         <div class="local-status">
@@ -227,6 +231,24 @@
               <div class="knowledge-tree" id="knowledgeMapTree" aria-live="polite"></div>
             </div>
           </div>
+        </section>
+
+        <section class="view-panel processing-view" data-view="processing" hidden>
+          <div class="processing-heading">
+            <div>
+              <p class="eyebrow">QUICK INVENTORY</p>
+              <h2>先盘点，再清洗</h2>
+              <p>
+                先用轻量数据看清收藏池的规模、处理成本和风险，再决定今天处理哪一批。
+              </p>
+            </div>
+            <div class="processing-mode">
+              <span>当前阶段</span>
+              <strong>前端结构</strong>
+              <small>自动化未启用</small>
+            </div>
+          </div>
+          <div id="processingDashboard" aria-live="polite"></div>
         </section>
       </main>
 

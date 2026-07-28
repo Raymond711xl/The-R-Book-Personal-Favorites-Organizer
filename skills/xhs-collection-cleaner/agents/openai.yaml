@@ -1,0 +1,7 @@
+interface:
+  display_name: "小红书收藏清洗助手"
+  short_description: "直接在 Agent 对话中盘点收藏、展示进度并生成可续跑清洗计划"
+  default_prompt: "使用 $xhs-collection-cleaner 展示能力菜单，并盘点我的小红书收藏。"
+
+policy:
+  allow_implicit_invocation: true

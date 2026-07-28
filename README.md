@@ -14,27 +14,26 @@ A local-first, Agent-assisted personal reading organizer that turns “read late
 
 ## 界面预览 / Interface Preview
 
-<p align="center">
-  <a href="docs/images/library-overview.png">
-    <img src="docs/images/library-overview.png" alt="全局列表 / Library overview" width="100%">
-  </a>
-</p>
-<p align="center"><sub>全局列表：集中浏览、筛选和管理个人收藏 / Library overview for browsing, filtering, and managing personal favorites</sub></p>
-
 <table>
   <tr>
-    <td width="50%" align="center">
+    <td width="33.33%" align="center">
+      <a href="docs/images/library-overview.png">
+        <img src="docs/images/library-overview.png" alt="全局列表 / Library overview" width="100%">
+      </a>
+    </td>
+    <td width="33.33%" align="center">
       <a href="docs/images/weekly-reading.png">
         <img src="docs/images/weekly-reading.png" alt="周阅读与内容详情 / Weekly reading and item detail" width="100%">
       </a>
     </td>
-    <td width="50%" align="center">
+    <td width="33.33%" align="center">
       <a href="docs/images/knowledge-map.png">
         <img src="docs/images/knowledge-map.png" alt="知识地图 / Knowledge map" width="100%">
       </a>
     </td>
   </tr>
   <tr>
+    <td align="center"><sub>全局列表 / Library overview</sub></td>
     <td align="center"><sub>周阅读与内容详情 / Weekly reading and item detail</sub></td>
     <td align="center"><sub>知识地图 / Knowledge map</sub></td>
   </tr>

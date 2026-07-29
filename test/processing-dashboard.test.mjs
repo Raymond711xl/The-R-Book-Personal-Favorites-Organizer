@@ -78,6 +78,10 @@ test("builds an aggregate-only dashboard with distinct inventory boundaries", as
       type: "normal",
       description: "正文".repeat(150),
       images: [{}, {}],
+      contentSummary: "一条已清洗的合成内容。",
+      keyPoints: ["只有一个标签也应被视为合法清洗结果。"],
+      searchTags: ["demo"],
+      category: "测试",
     },
     {
       noteId: "video-1",
@@ -160,6 +164,7 @@ test("builds an aggregate-only dashboard with distinct inventory boundaries", as
   assert.equal(dashboard.workload.counts["video-short"], 1);
   assert.equal(dashboard.workload.counts["video-long"], 1);
   assert.equal(dashboard.pipeline.find((stage) => stage.id === "archived").count, 3);
+  assert.equal(dashboard.pipeline.find((stage) => stage.id === "enriched").count, 1);
   assert.equal(dashboard.automation.enabled, false);
   assert.doesNotMatch(await fs.readFile(outputPath, "utf8"), /must-not-leak/);
 

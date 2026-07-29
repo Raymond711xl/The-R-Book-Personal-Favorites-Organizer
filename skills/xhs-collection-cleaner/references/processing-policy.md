@@ -9,7 +9,7 @@
 1. **快速盘点**：只读元数据，得到数量、类型、成本和风险。
 2. **成本分桶**：把内容分为文字快速、轻图片、重图片和长中短视频。
 3. **优先级排序**：结合用户标星、收藏/点赞、主题相关性与可操作性产生 P0/P1/P2。
-4. **深度清洗**：按桶调用 OCR、视频转写、切片、摘要和标签。
+4. **深度清洗**：按桶调用 OCR、视频转写、结构化摘要和标签；切片与向量索引属于下一阶段。
 5. **发布与回顾**：输出平台无关 Markdown，再由其他适配器决定是否进入知识库。
 
 ## P0/P1/P2
@@ -29,8 +29,14 @@
 - 任何真实批处理开始前都要显示目标条数、预计媒体量和可恢复断点。
 - 网页不得成为确认或续跑任务的唯一入口。
 
-## 推荐状态机
+## 状态机
 
-`discovered → inspected → queued → fetched → extracted → chunked → reviewed → published`
+v0.1.0 当前可确认的聚合阶段：
+
+`discovered → fetchable → archived → enriched → published`
+
+完成切片和向量索引后的目标阶段：
+
+`discovered → fetchable → archived → enriched → chunked → embedded → synced`
 
 异常状态独立记录为 `blocked`、`failed` 或 `action-required`，不要让失败条目消失在总数里。

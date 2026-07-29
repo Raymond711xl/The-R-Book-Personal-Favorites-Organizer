@@ -86,12 +86,15 @@ function metadataImageCount(metadata) {
 }
 
 function metadataIsEnriched(metadata) {
+  const tagCount = Array.isArray(metadata.searchTags)
+    ? metadata.searchTags.filter(Boolean).length
+    : 0;
   return (
     String(metadata.contentSummary || "").trim().length > 0 &&
     Array.isArray(metadata.keyPoints) &&
     metadata.keyPoints.filter(Boolean).length > 0 &&
-    Array.isArray(metadata.searchTags) &&
-    metadata.searchTags.filter(Boolean).length >= 5 &&
+    tagCount >= 1 &&
+    tagCount <= 5 &&
     String(metadata.category || "").trim().length > 0 &&
     metadata.category !== "待分类"
   );

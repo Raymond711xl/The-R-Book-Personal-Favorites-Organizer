@@ -49,3 +49,17 @@ test("renders one five-action row in the detail view", async () => {
   assert.match(detailActions, /打开小红书原文/);
   assert.doesNotMatch(detailActions, /summary_read|data-action-status/);
 });
+
+test("adds a standalone processing center without enabling automation", async () => {
+  const [html, app] = await Promise.all([
+    fs.readFile(path.join(projectRoot, "workbench", "index.html"), "utf8"),
+    fs.readFile(path.join(projectRoot, "workbench", "app.js"), "utf8"),
+  ]);
+
+  assert.match(html, /data-view-target="processing"/);
+  assert.match(html, /data-view="processing"/);
+  assert.match(html, /先盘点，再清洗/);
+  assert.match(app, /renderProcessingDashboard/);
+  assert.match(app, /尚未自动执行/);
+  assert.match(app, /\["list", "weekly", "map", "processing"\]/);
+});

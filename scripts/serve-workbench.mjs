@@ -10,6 +10,7 @@ import {
   readWorkbenchData,
   updateReadingState,
 } from "../src/workbench-data.mjs";
+import { buildProcessingDashboard } from "../skills/xhs-collection-cleaner/scripts/build-inventory.mjs";
 
 const HOST = "127.0.0.1";
 const DEFAULT_PORT = 4317;
@@ -231,6 +232,7 @@ async function requestHandler(request, response) {
 async function main() {
   const port = parsePort();
   const { catalog, knowledgeMap } = await buildWorkbenchData();
+  await buildProcessingDashboard();
   const server = http.createServer((request, response) => {
     requestHandler(request, response).catch((error) => {
       console.error(error.stack || error.message);

@@ -240,7 +240,7 @@ async function main() {
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
   await fs.writeFile(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");
   console.log(
-    `收藏目录：已捕获 ${snapshot.inventory.capturedCount}/${expectedCount || "未知"} 条，状态 ${snapshot.inventory.captureStatus}，来自 ${filenames.length} 个快照。`,
+    `收藏目录：已捕获 ${snapshot.inventory.capturedCount}/${expectedCount || "未知"} 条，状态 ${snapshot.inventory.captureStatus}，来自 ${snapshot.inventory.filesProcessed} 个总目录与收藏夹快照。`,
   );
 }
 

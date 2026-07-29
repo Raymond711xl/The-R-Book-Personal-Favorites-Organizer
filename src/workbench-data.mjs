@@ -97,6 +97,21 @@ function normalizeTag(tag) {
   return String(tag?.name || "").trim();
 }
 
+function isDeepCleanedMetadata(metadata) {
+  const tagCount = Array.isArray(metadata.searchTags)
+    ? metadata.searchTags.filter(Boolean).length
+    : 0;
+  return (
+    String(metadata.contentSummary || "").trim().length > 0 &&
+    Array.isArray(metadata.keyPoints) &&
+    metadata.keyPoints.filter(Boolean).length > 0 &&
+    tagCount >= 1 &&
+    tagCount <= 5 &&
+    String(metadata.category || "").trim().length > 0 &&
+    metadata.category !== "待分类"
+  );
+}
+
 function inferKnowledgeType(metadata) {
   const text = [
     metadata.displayTitle,
@@ -728,6 +743,7 @@ export async function buildWorkbenchData({
           "metadata.json",
         );
     const metadata = await loadJson(metadataPath);
+    if (!isDeepCleanedMetadata(metadata)) continue;
     const profile = config.profiles?.[entry.noteId] || {};
     const state = readingState.items[entry.noteId] || {
       readStatus: "unread",
@@ -1055,13 +1071,14 @@ function itemMapHas(items, noteId) {
 
 export async function readWorkbenchData(projectRoot = PROJECT_ROOT) {
   const dataDir = path.join(projectRoot, "data");
-  const [catalog, weekly, relations, knowledgeMap] = await Promise.all([
+  const [catalog, weekly, relations, knowledgeMap, processing] = await Promise.all([
     loadJson(path.join(dataDir, "catalog.json")),
     loadJson(path.join(dataDir, "weekly.json")),
     loadJson(path.join(dataDir, "relations.json")),
     loadJson(path.join(dataDir, "knowledge-map.json")),
+    loadJson(path.join(dataDir, "processing-dashboard.json"), null),
   ]);
-  return { catalog, weekly, relations, knowledgeMap };
+  return { catalog, weekly, relations, knowledgeMap, processing };
 }
 
 export async function updateReadingState(noteId, patch, {

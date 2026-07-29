@@ -20,6 +20,7 @@
     "build:enrichment-input": "node scripts/build-enrichment-input.mjs",
     "build:favorites-snapshot": "node scripts/build-favorites-snapshot.mjs",
     "build:import-report": "node scripts/build-import-report.mjs",
+    "build:processing-dashboard": "node skills/xhs-collection-cleaner/scripts/build-inventory.mjs --root . --output data/processing-dashboard.json",
     "build:preview-index": "node scripts/build-preview-index.mjs",
     "build:workbench": "node scripts/build-workbench-data.mjs",
     "refresh:source": "node scripts/refresh-source-metadata.mjs",
